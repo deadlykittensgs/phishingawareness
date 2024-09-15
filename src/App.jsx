@@ -1,35 +1,19 @@
-import { useState } from 'react'
-import FishingBait from './Components/FishingBait'
-import Footer from './Components/Footer'
-import ToLearn from './Components/ToLearn'
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import PageOne from './Pages/PageOne'
+import PageTwo from './Pages/PageTwo'
 
-
-function App() {
-
-  const [learn, setLearn]=useState(true)
-
-const clickToLearn = () => {
-  setLearn(!learn)
-}
-
-
-
+export default function App() {
   return (
-    <div className='flex flex-col w-screen h-screen'>
-<header className='flex items-center h-[100px] bg-slate-600 text-black'>
-<h1 className='text-[2rem] font-bold text-red-500 p-2'>Stop!</h1>
-<p className='text-[0.7rem] p-1 text-white text-center'>Do not enter real information! This is an example Phishing page to show how easy it is to have your personal information stolen by fake pages. click <span onClick={clickToLearn} className='text-red-500 hover:underline'>HERE</span> to learn more </p>
-</header>
-
-
-<div className='flex flex-col flex-1 items-center justify-center bg-[#F2F4F7] text-white w-[100%] '>
-  <p className='text-black text-[1.2rem] mb-7'>Sign in</p>
-  {learn ? (<ToLearn/>): (<FishingBait/>) }
-</div>
-<Footer></Footer>
+    <div>
+<BrowserRouter>
+<Routes>
+  <Route index element={<PageOne/>}/>
+  <Route path="/pageOne" element={<PageOne/>}/>
+  <Route path="/pageTwo" element={<PageTwo/>}/>
+</Routes>
+</BrowserRouter>
+      
     </div>
   )
 }
-
-export default App
- 
