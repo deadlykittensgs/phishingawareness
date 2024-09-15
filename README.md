@@ -1,0 +1,1 @@
+this will be a fishing sight example used to show how easy it is to get fished by malicious sights making users more hesitant to trust unknown sights that look real
